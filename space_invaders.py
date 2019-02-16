@@ -1,6 +1,5 @@
 # import sys
 import pygame
-import threading
 import random
 from settings import Settings
 from ship import Ship
@@ -10,10 +9,16 @@ from game_stats import GameStats
 from button import Button
 from scoreboard import Scoreboard
 from start_screen import StartScreen
+# import logging
 # from ufo import UFO
 
 
 def run_game():
+
+    # logger = logging.getLogger('tipper')
+    # logger.addHandler(logging.StreamHandler())
+    # logger.setLevel(logging.DEBUG)
+
     pygame.init()
     settings = Settings()
     screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
@@ -32,6 +37,7 @@ def run_game():
     barriers = Group()
     ufos = Group()
     game_functions.create_fleet(settings, screen, ship, aliens, alien_type)
+    sec = 3
 
     while True:
 
@@ -49,13 +55,20 @@ def run_game():
                 if (not ufo.moving) and random.randint(1, 100) == 2:
                     ufo.moving = True
                 ufo.update()
-            game_functions.update_bullets(settings, screen, stats, sb, ship, aliens, bullets, alien_type, barriers, ufos)
-            # game_functions.change_alien(aliens)
-            timer = threading.Timer(1.0, game_functions.change_alien, [aliens])
-            timer.start()
+            game_functions.update_bullets(settings, screen, stats, sb, ship, aliens,
+                                          bullets, alien_type, barriers, ufos)
+
+            now = pygame.time.get_ticks()
+            wait = False
+            if (now/1000) == sec:
+                wait = True
+                # logger.debug(now)
+            if wait:
+                game_functions.change_alien(aliens)
+                sec += 1
+
             game_functions.update_aliens(settings, stats, screen, sb, ship, aliens, bullets, alien_type)
             game_functions.update_screen(settings, screen, stats, sb, ship, aliens, bullets, play_button, barriers, ufos)
-            timer.cancel()
 
         game_functions.update_screen(settings, screen, stats, sb, ship, aliens, bullets, play_button, barriers, ufos)
 
