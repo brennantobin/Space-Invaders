@@ -5,7 +5,7 @@ import game_functions
 class StartScreen:
 
     def __init__(self, settings, screen, stats, sb, ship, play_button, score_button,
-                 aliens, bullets, allien_type, barrier, ufo):
+                 aliens, bullets, alien_bullets, allien_type, barrier, ufo):
         self.screen = screen
         self.screen_color = (100, 100, 100)
         self.start_button = play_button
@@ -19,6 +19,7 @@ class StartScreen:
         self.alien_type = allien_type
         self.barrier = barrier
         self.ufo = ufo
+        self.alien_bullets = alien_bullets
 
         self.title_space = 'Space'
         self.title_invaders = 'Invaders'
@@ -91,5 +92,5 @@ class StartScreen:
         pygame.display.flip()
 
         game_functions.check_events(self.settings, self.screen, self.stats, self.sb, self.start_button,
-                                    self.high_score_button, self.ship, self.aliens, self.bullets,
+                                    self.high_score_button, self.ship, self.aliens, self.bullets, self.alien_bullets,
                                     self.alien_type, self.barrier, self.ufo)

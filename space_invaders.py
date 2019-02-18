@@ -33,6 +33,7 @@ def run_game():
     # ufo = UFO(settings, screen, stats)
     alien_type = 'sprites/enemy3'
     bullets = Group()
+    alien_bullets = Group()
     aliens = Group()
     barriers = Group()
     ufos = Group()
@@ -43,11 +44,11 @@ def run_game():
 
         if not stats.game_active:
             start_screen = StartScreen(settings, screen, stats, sb, ship, play_button, score_button,
-                                       aliens, bullets, alien_type, barriers, ufos)
+                                       aliens, bullets, alien_bullets, alien_type, barriers, ufos)
             start_screen.draw_screen()
 
         game_functions.check_events(settings, screen, stats, sb, play_button, score_button, ship, aliens,
-                                    bullets, alien_type, barriers, ufos)
+                                    bullets, alien_bullets, alien_type, barriers, ufos)
 
         if stats.game_active:
             ship.update()
@@ -57,7 +58,8 @@ def run_game():
                 ufo.update()
             game_functions.update_bullets(settings, screen, stats, sb, ship, aliens,
                                           bullets, alien_type, barriers, ufos)
-
+            game_functions.update_alien_bullets(alien_bullets, barriers)
+            game_functions.fire_alien_bullet(settings, screen, aliens, alien_bullets)
             now = pygame.time.get_ticks()
             wait = False
             if (now/1000) == sec:
@@ -68,9 +70,8 @@ def run_game():
                 sec += 1
 
             game_functions.update_aliens(settings, stats, screen, sb, ship, aliens, bullets, alien_type)
-            game_functions.update_screen(settings, screen, stats, sb, ship, aliens, bullets, play_button, barriers, ufos)
-
-        game_functions.update_screen(settings, screen, stats, sb, ship, aliens, bullets, play_button, barriers, ufos)
+            game_functions.update_screen(settings, screen, stats, sb, ship, aliens, bullets, alien_bullets, play_button, barriers, ufos)
+        game_functions.update_screen(settings, screen, stats, sb, ship, aliens, bullets, alien_bullets, play_button, barriers, ufos)
 
 
 run_game()
