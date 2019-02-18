@@ -6,6 +6,7 @@ from time import sleep
 from barrier import Barrier
 from ufo import UFO
 from alien_bullet import AlienBullet
+from explosion import Explosion
 import random
 # from highscores import Highscores
 
@@ -194,11 +195,14 @@ def check_bullet_alien_collisions(settings, screen, stats, sb, ship, aliens, bul
     if collisions:
         for aliens in collisions.values():
             for alien in aliens:
-                explode(alien.rect, screen)
-            stats.score += settings.alien_points * len(aliens)
-            sb.prep_score()
+                # explode(alien.rect, screen)
+                explosion = Explosion(settings, screen, alien.rect)
+                explosion.update()
+        stats.score += settings.alien_points * len(aliens)
+        sb.prep_score()
 
         check_high_score(stats, sb)
+
 
     if len(aliens) == 0:
         bullets.empty()
@@ -211,8 +215,8 @@ def check_bullet_alien_collisions(settings, screen, stats, sb, ship, aliens, bul
 
 
 def explode(position, screen):
-    for image in range(0, 12):
-        explosion = pygame.image.load('sprites/Explosion' + str(image) + '.png')
+    for number in range(0, 12):
+        explosion = pygame.image.load('sprites/Explosion' + str(number) + '.png')
         # rect = explosion.get_rect()
         # rect.x = position.x
         # rect.y = position.y
