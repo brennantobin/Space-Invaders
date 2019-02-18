@@ -70,8 +70,10 @@ def run_game():
                 sec += 1
 
             game_functions.update_aliens(settings, stats, screen, sb, ship, aliens, bullets, alien_type)
-            game_functions.update_screen(settings, screen, stats, sb, ship, aliens, bullets, alien_bullets, play_button, barriers, ufos)
-        game_functions.update_screen(settings, screen, stats, sb, ship, aliens, bullets, alien_bullets, play_button, barriers, ufos)
+            game_functions.update_screen(settings, screen, stats, sb, ship, aliens, bullets, alien_bullets,
+                                         play_button, barriers, ufos)
+        game_functions.update_screen(settings, screen, stats, sb, ship, aliens, bullets,
+                                     alien_bullets, play_button, barriers, ufos)
 
 
 run_game()

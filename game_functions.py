@@ -95,7 +95,7 @@ def fire_bullet(settings, screen, ship, bullets):
 
 
 def fire_alien_bullet(settings, screen, aliens, alien_bullets):
-    if random.randint(0, 10) == 2:
+    if random.randint(0, 50) == 2:
         for alien in aliens:
             new_bullet = AlienBullet(settings=settings, screen=screen, alien=alien)
             alien_bullets.add(new_bullet)
@@ -165,7 +165,6 @@ def get_number_rows(settings, ship_height, alien_height):
 
 
 def change_alien(aliens):
-    #threading.Timer(1.0, change_alien, [aliens]).start()
     for alien in aliens:
         if alien.alien_type == alien.alien_type[0:14] + '(2)':
                 alien.alien_type = alien.alien_type[0:14]
@@ -218,6 +217,7 @@ def explode(position, screen):
         # rect.x = position.x
         # rect.y = position.y
         screen.blit(explosion, position)
+        # pygame.display.flip()
 
 
 def check_bullet_barrier_collisions(barriers, bullets):
