@@ -5,13 +5,13 @@ from pygame.sprite import Sprite
 class Alien(Sprite):
     # the class represents a single alien in the fleet
 
-    def __init__(self, settings, screen, alien_type):
+    def __init__(self, settings, screen, alien_type, number):
         super(Alien, self).__init__()
         self.screen = screen
         self.settings = settings
         self.type = type
         self.alien_type = alien_type
-
+        self.number = number
         self.image = pygame.image.load(alien_type + '.png')
        # self.image = pygame.transform.scale(self.image, (40, 50))
         self.rect = self.image.get_rect()

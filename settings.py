@@ -8,7 +8,7 @@ class Settings:
         self.screen_height = 800
         self.bg_color = (0, 0, 100)
 
-        self.bullet_width = 3000
+        self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = (100, 0, 0)
         self.bullets_allowed = 5
