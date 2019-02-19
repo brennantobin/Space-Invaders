@@ -139,9 +139,11 @@ def create_ufo_group(settings, screen, ufos):
 
 def create_barriers(settings, screen, barriers):
     x_off = 80
+    y_off = 0
     for column in range(0, 4):
         for piece in range(0, 6):
-            create_barrier(settings, screen, barriers, piece, x_off)
+            y_off += 2
+            create_barrier(settings, screen, barriers, piece, x_off, y_off)
         x_off += 300
 
 
@@ -177,8 +179,8 @@ def create_alien(settings, screen, aliens, alien_number, row_number, alien_type,
     aliens.add(alien)
 
 
-def create_barrier(settings, screen, barriers, piece, x_off):
-    barrier = Barrier(settings, screen, piece, x_off)
+def create_barrier(settings, screen, barriers, piece, x_off, y_off):
+    barrier = Barrier(settings, screen, piece, x_off, y_off)
     barriers.add(barrier)
 
 

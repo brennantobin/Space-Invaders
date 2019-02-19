@@ -5,7 +5,7 @@ from pygame.sprite import Sprite
 class Barrier(Sprite):
     # the class represents a single barrier in the group
 
-    def __init__(self, settings, screen, piece, x_off):
+    def __init__(self, settings, screen, piece, x_off, y_off):
         super(Barrier, self).__init__()
         self.screen = screen
         self.settings = settings
@@ -15,7 +15,7 @@ class Barrier(Sprite):
         self.rect = self.image.get_rect()
 
         self.rect.x = x_off
-        self.rect.top = 600 
+        self.rect.top = 600 + y_off
 
     def blitme(self):
         # draw the barrier in it's location
