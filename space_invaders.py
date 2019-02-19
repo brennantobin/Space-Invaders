@@ -30,7 +30,6 @@ def run_game():
     stats = GameStats(settings)
     sb = Scoreboard(settings, screen, stats)
     ship = Ship(settings, screen, stats)
-    is_exploding = False
     explosions = Group()
     alien_type = 'sprites/enemy3'
     bullets = Group()
@@ -53,7 +52,7 @@ def run_game():
 
         if stats.game_active:
             ship.update()
-            explosions.update(explosions)
+            explosions.update()
             for explosion in explosions:
                 if not explosion.is_exploding:
                     explosion.kill()
@@ -61,6 +60,9 @@ def run_game():
                 if (not ufo.moving) and random.randint(1, 100) == 2:
                     ufo.moving = True
                 ufo.update()
+            if len(ufos.sprites()) == 0:
+                game_functions.create_ufo_group(settings, screen, ufos)
+
             game_functions.update_bullets(settings, screen, stats, sb, ship, aliens,
                                           bullets, alien_type, barriers, ufos, explosions)
             game_functions.update_alien_bullets(alien_bullets, barriers)
