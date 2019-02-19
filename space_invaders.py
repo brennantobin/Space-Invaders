@@ -66,7 +66,8 @@ def run_game():
 
             game_functions.update_bullets(settings, screen, stats, sb, ship, aliens,
                                           bullets, alien_type, barriers, ufos, explosions, number)
-            game_functions.update_alien_bullets(alien_bullets, barriers)
+            game_functions.update_alien_bullets(settings, stats, screen, sb, aliens, bullets, alien_type, number,
+                                                alien_bullets, barriers, ship, explosions)
             game_functions.fire_alien_bullet(settings, screen, aliens, alien_bullets)
             now = pygame.time.get_ticks()
             wait = False

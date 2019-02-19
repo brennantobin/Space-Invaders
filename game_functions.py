@@ -71,7 +71,8 @@ def update_screen(settings, screen, stats, sb, ship, aliens, bullets, alien_bull
     pygame.display.flip()
 
 
-def update_bullets(settings, screen, stats, sb, ship, aliens, bullets, aliens_type, barriers, ufos, explosions, number):
+def update_bullets(settings, screen, stats, sb, ship, aliens, bullets, aliens_type, barriers,
+                   ufos, explosions, number):
     # update the bullet position
     bullets.update()
     # get rid of bullets after they leave the screen
@@ -84,9 +85,12 @@ def update_bullets(settings, screen, stats, sb, ship, aliens, bullets, aliens_ty
             bullets.remove(bullet)
 
 
-def update_alien_bullets(alien_bullets, barriers):
+def update_alien_bullets(settings, stats, screen, sb, aliens, bullets, alien_type, number,
+                         alien_bullets, barriers, ship, explosions):
     alien_bullets.update()
     check_bullet_barrier_collisions(barriers, alien_bullets)
+    check_bullet_ship_collisions(settings, stats, screen, sb, aliens, bullets, alien_type,
+                                 number, ship, alien_bullets, explosions)
 
 
 def fire_bullet(settings, screen, ship, bullets):
@@ -245,6 +249,15 @@ def check_bullet_barrier_collisions(barriers, bullets):
     pygame.sprite.groupcollide(bullets, barriers, True, True)
 
 
+def check_bullet_ship_collisions(settings, stats, screen, sb, aliens, bullets, alien_type,
+                                 number, ship, alien_bullets, explosions):
+    collision = pygame.sprite.spritecollide(ship, alien_bullets, True)
+    if collision:
+        explosion = Explosion(settings, screen, ship.rect, 'ship')
+        explosions.add(explosion)
+        ship_hit(settings, stats, screen, sb, ship, aliens, bullets, alien_type, number)
+
+
 def check_bullet_ufo_collision(ufos, screen, bullets, settings, explosions):
     collisions = pygame.sprite.groupcollide(bullets, ufos, True, True)
     if collisions:
@@ -265,7 +278,7 @@ def ship_hit(settings, stats, screen, sb, ship, aliens, bullets, alien_type, num
         create_fleet(settings, screen, ship, aliens, alien_type, number)
         ship.center_ship()
 
-        sleep(0.5)
+        sleep(1)
 
     else:
         stats.game_active = False
@@ -327,4 +340,3 @@ def check_high_score(stats, sb):
     if stats.score > stats.high_score:
         stats.high_score = stats.score
         sb.prep_high_score()
-
