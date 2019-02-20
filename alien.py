@@ -13,7 +13,6 @@ class Alien(Sprite):
         self.alien_type = alien_type
         self.number = number
         self.image = pygame.image.load(alien_type + '.png')
-       # self.image = pygame.transform.scale(self.image, (40, 50))
         self.rect = self.image.get_rect()
 
         self.rect.x = self.rect.width

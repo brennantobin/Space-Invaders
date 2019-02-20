@@ -24,7 +24,6 @@ class Sound:
         hit_sound = pygame.mixer.Sound('sounds/invaderkilled.wav')
         hit_sound.play()
 
-
     def background_music(self):
         start_time = pygame.time.get_ticks()
         fastinvader1 = pygame.mixer.Sound('sounds/fastinvader1.wav')

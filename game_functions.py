@@ -133,7 +133,7 @@ def fire_alien_bullet(settings, screen, aliens, alien_bullets):
                         alien_bullets.add(new_bullet)
 
 
-def create_ufo_group(settings, screen, ufos, sound):
+def create_ufo_group(settings, screen, ufos):
     ufo_one = UFO(settings, screen)
     ufos.add(ufo_one)
 
@@ -223,7 +223,8 @@ def change_alien(aliens):
                 alien.image = pygame.image.load(alien.alien_type + '.png')
 
 
-def update_aliens(settings, stats, screen, sb, ship, aliens, bullets, alien_type, explosions, number, sound, alien_bullets):
+def update_aliens(settings, stats, screen, sb, ship, aliens, bullets,
+                  alien_type, explosions, number, sound, alien_bullets):
     check_fleet_edges(settings, aliens)
     aliens.update()
 
@@ -340,7 +341,7 @@ def check_play_button(settings, screen, stats, sb, play_button, ship, aliens, bu
 
         create_fleet(settings, screen, ship, aliens, alien_type, number)
         create_barriers(settings, screen, barriers)
-        create_ufo_group(settings, screen, ufo, sound)
+        create_ufo_group(settings, screen, ufo)
         ship.center_ship()
 
 
