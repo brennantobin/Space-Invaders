@@ -142,9 +142,24 @@ def create_barriers(settings, screen, barriers):
     y_off = 0
     for column in range(0, 4):
         for piece in range(0, 6):
-            y_off += 2
+            if piece == 1:
+                y_off -= 12
+                x_off -= 17
+            if piece == 2:
+                y_off -= 6
+                x_off += 37
+            if piece == 3:
+                y_off -= 10
+                x_off -= 29
+            if piece == 4:
+                y_off -= 4
+                x_off -= 12
+            if piece == 5:
+                y_off -= 4
+                x_off += 35
             create_barrier(settings, screen, barriers, piece, x_off, y_off)
         x_off += 300
+        y_off += 38
 
 
 def create_fleet(settings, screen, ship, aliens, alien_type, number):
