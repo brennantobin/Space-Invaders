@@ -41,6 +41,7 @@ def run_game():
     number = 0
     game_functions.create_fleet(settings, screen, ship, aliens, alien_type, number)
     sec = 3
+    sec_start_screen = 0
     sound = Sound()
 
     while True:
@@ -50,7 +51,7 @@ def run_game():
             # see their past high scores
             start_screen = StartScreen(settings, screen, stats, sb, ship, play_button, score_button,
                                        aliens, bullets, alien_bullets, alien_type, barriers,
-                                       ufos, explosions, number, sound)
+                                       ufos, explosions, number, sound, sec_start_screen)
             highscores = Highscores(settings, screen, stats, sb, ship, play_button,
                                     score_button, aliens, bullets, alien_type)
             if start_screen.draw_screen():
@@ -62,7 +63,12 @@ def run_game():
 
         if stats.game_active:
 
-            # sets up the background music
+            if len(aliens) < 19:
+                sound.faster = True
+                sound.normal_speed = False
+            if len(aliens) < 10:
+                sound.even_faster = True
+                sound.normal_speed = False
             sound.background_music()
 
             ship.update()

@@ -9,8 +9,16 @@ class Sound:
         self.second3 = 4
         self.second4 = 5
         self.ufo_sec = 0
-        # self.faster = False
-        # self.even_faster = False
+        self.vary1 = 0
+        self.vary2 = 0
+        self.vary3 = 0
+        self.vary4 = 0
+        self.faster_vary = 0
+        self.even_faster_vary = 0
+        self.faster = False
+        self.even_faster = False
+        self.faster_stop = False
+        self.even_faster_stop = False
 
     def shoot(self):
         shoot_sound = pygame.mixer.Sound('sounds/shoot.wav')
@@ -34,24 +42,38 @@ class Sound:
         hold2 = False
         hold3 = False
         hold4 = False
+        if self.faster and not self.faster_stop:
+            self.vary1 += 0.5
+            self.vary3 -= 0.5
+            self.vary4 -= 1
+            self.faster_stop = True
+            self.faster_vary = 2
+        if self.even_faster and self.even_faster_stop:
+            self.vary1 += 0.25
+            self.vary2 -= 0.5
+            self.vary3 -= 1.25
+            self.vary4 -= 2
+            self.even_faster_stop = True
+            self.even_faster_vary = 3
         # makes it so each beep in the background music is playing once a second
-        if round((start_time / 1000), 1) == self.second1:
+        # Increase the spead of the music as the aliens die
+        if round(start_time/1000.00*4)/4 == self.second1 + self.vary1:
             hold1 = True
         if hold1:
             fastinvader1.play()
-            self.second1 += 4
-        if round((start_time / 1000), 1) == self.second2:
+            self.second1 += (4.00 - self.faster_vary - self.even_faster_vary)
+        if round(start_time/1000.00*4)/4 == self.second2 + self.vary2:
             hold2 = True
         if hold2:
             fastinvader2.play()
-            self.second2 += 4
-        if round((start_time / 1000), 1) == self.second3:
+            self.second2 += (4.00 - self.faster_vary - self.even_faster_vary)
+        if round(start_time/1000.00*4)/4 == self.second3 + self.vary3:
             hold3 = True
         if hold3:
             fastinvader3.play()
-            self.second3 += 4
-        if round((start_time / 1000), 1) == self.second4:
+            self.second3 += (4.00 - self.faster_vary - self.even_faster_vary)
+        if round(start_time/1000.00*4)/4 == self.second4 + self.vary4:
             hold4 = True
         if hold4:
             fastinvader4.play()
-            self.second4 += 4
+            self.second4 += (4.00 - self.faster_vary - self.even_faster_vary)

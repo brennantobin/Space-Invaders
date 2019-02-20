@@ -6,7 +6,8 @@ import game_functions
 class StartScreen:
 
     def __init__(self, settings, screen, stats, sb, ship, play_button, score_button,
-                 aliens, bullets, alien_bullets, allien_type, barrier, ufo, explosion, number, sound):
+                 aliens, bullets, alien_bullets, allien_type, barrier, ufo, explosion,
+                 number, sound, sec):
         self.screen = screen
         self.screen_color = (100, 100, 100)
         self.start_button = play_button
@@ -35,6 +36,7 @@ class StartScreen:
         self.font = pygame.font.SysFont(None, 100)
         self.small_font = pygame.font.SysFont(None, 30)
         self.prep_title()
+        self.sec = sec
 
     def prep_title(self):
         self.title_space_image = self.font.render(self.title_space, True, self.WHITE)
@@ -94,6 +96,17 @@ class StartScreen:
         self.screen.blit(self.enemy, self.enemy_rect)
         pygame.display.flip()
 
+        # changes the image of the alien back and forth once a second, for its two frame animation
+        now = pygame.time.get_ticks()
+        wait = False
+        # truncates ticks in order to get the time in seconds
+        if (now / 1000) == self.sec:
+            wait = True
+            # logger.debug(now)
+        if wait:
+            game_functions.change_alien(self.aliens)
+            self.sec += 1
+
         game_functions.check_events(self.settings, self.screen, self.stats, self.sb, self.start_button,
                                     self.ship, self.aliens, self.bullets, self.alien_bullets,
                                     self.alien_type, self.barrier, self.ufo, self.explosion, self.number, self.sound)
@@ -104,12 +117,10 @@ class StartScreen:
 
     def check_highscores_button(self):
         for event in pygame.event.get():
-            print('working?')
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 button_clicked = self.high_score_button.rect.collidepoint(mouse_x, mouse_y)
                 if button_clicked:
-                    print('clicked')
                     return True
 
         return False
