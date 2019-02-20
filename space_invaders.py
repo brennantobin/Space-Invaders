@@ -52,6 +52,8 @@ def run_game():
                                     bullets, alien_bullets, alien_type, barriers, ufos, explosions, number)
 
         if stats.game_active:
+            fastinvader1 = pygame.mixer.Sound('sounds/fastinvader1.wav')
+            fastinvader1.play()
             ship.update()
             explosions.update()
             for explosion in explosions:
