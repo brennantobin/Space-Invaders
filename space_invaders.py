@@ -69,7 +69,7 @@ def run_game():
                     ufo.moving = True
                 ufo.update()
             if len(ufos.sprites()) == 0:
-                game_functions.create_ufo_group(settings, screen, ufos, sound)
+                game_functions.create_ufo_group(settings, screen, ufos)
 
             game_functions.update_bullets(settings, screen, stats, sb, ship, aliens,
                                           bullets, alien_type, barriers, ufos, explosions, number, sound)
@@ -86,7 +86,7 @@ def run_game():
                 sec += 1
 
             game_functions.update_aliens(settings, stats, screen, sb, ship, aliens, bullets,
-                                         alien_type, explosions, number, sound, alien_bullets)
+                                         alien_type, explosions, number, sound, alien_bullets, barriers)
             game_functions.update_screen(settings, screen, stats, sb, ship, aliens, bullets, alien_bullets,
                                          play_button, barriers, ufos, explosions)
         game_functions.update_screen(settings, screen, stats, sb, ship, aliens, bullets,

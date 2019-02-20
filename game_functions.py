@@ -90,7 +90,7 @@ def update_alien_bullets(settings, stats, screen, sb, aliens, bullets, alien_typ
     alien_bullets.update()
     check_bullet_barrier_collisions(barriers, alien_bullets)
     check_bullet_ship_collisions(settings, stats, screen, sb, aliens, bullets, alien_type,
-                                 number, ship, alien_bullets, explosions, sound)
+                                 number, ship, alien_bullets, explosions, sound, barriers)
 
 
 def fire_bullet(settings, screen, ship, bullets, sound):
@@ -224,7 +224,7 @@ def change_alien(aliens):
 
 
 def update_aliens(settings, stats, screen, sb, ship, aliens, bullets,
-                  alien_type, explosions, number, sound, alien_bullets):
+                  alien_type, explosions, number, sound, alien_bullets, barriers):
     check_fleet_edges(settings, aliens)
     aliens.update()
 
@@ -232,9 +232,9 @@ def update_aliens(settings, stats, screen, sb, ship, aliens, bullets,
         explosion = Explosion(settings, screen, ship.rect, 'ship')
         explosions.add(explosion)
         sound.ship_hit()
-        ship_hit(settings, stats, screen, sb, ship, aliens, bullets, alien_type, number, alien_bullets)
+        ship_hit(settings, stats, screen, sb, ship, aliens, bullets, alien_type, number, alien_bullets, barriers)
     check_aliens_bottom(settings, stats, screen, sb, ship, aliens, bullets,
-                        alien_type, explosions, number, alien_bullets)
+                        alien_type, explosions, number, alien_bullets, barriers)
 
 
 def change_fleet_direction(settings, aliens):
@@ -253,8 +253,14 @@ def check_bullet_alien_collisions(settings, screen, stats, sb, ship, aliens, bul
                 explosion = Explosion(settings, screen, alien.rect, 'alien')
                 explosions.add(explosion)
                 sound.alien_hit()
-        stats.score += settings.alien_points * len(aliens)
-        sb.prep_score()
+                if alien.alien_type == 'sprites/enemy2' or alien.alien_type == 'sprites/enemy2(2)':
+                    settings.alien_points = 20
+                if alien.alien_type == 'sprites/enemy3' or alien.alien_type == 'sprites/enemy3(2)':
+                    settings.alien_points = 40
+                if alien.alien_type == 'sprites/enemy1' or alien.alien_type == 'sprites/enemy1(2)':
+                    settings.alien_points = 10
+                stats.score += settings.alien_points
+                sb.prep_score()
 
         check_high_score(stats, sb)
 
@@ -273,13 +279,13 @@ def check_bullet_barrier_collisions(barriers, bullets):
 
 
 def check_bullet_ship_collisions(settings, stats, screen, sb, aliens, bullets, alien_type,
-                                 number, ship, alien_bullets, explosions, sound):
+                                 number, ship, alien_bullets, explosions, sound, barriers):
     collision = pygame.sprite.spritecollide(ship, alien_bullets, True)
     if collision:
         explosion = Explosion(settings, screen, ship.rect, 'ship')
         explosions.add(explosion)
         sound.ship_hit()
-        ship_hit(settings, stats, screen, sb, ship, aliens, bullets, alien_type, number, alien_bullets)
+        ship_hit(settings, stats, screen, sb, ship, aliens, bullets, alien_type, number, alien_bullets, barriers)
 
 
 def check_bullet_ufo_collision(ufos, screen, bullets, settings, explosions, sound):
@@ -292,13 +298,15 @@ def check_bullet_ufo_collision(ufos, screen, bullets, settings, explosions, soun
                 sound.alien_hit()
 
 
-def ship_hit(settings, stats, screen, sb, ship, aliens, bullets, alien_type, number, alien_bullets):
+def ship_hit(settings, stats, screen, sb, ship, aliens, bullets, alien_type, number, alien_bullets, barriers):
     if stats.ships_left > 0:
         stats.ships_left -= 1
         sb.prep_ships()
         aliens.empty()
         bullets.empty()
+        barriers.empty()
         alien_bullets.empty()
+        create_barriers(settings, screen, barriers)
         create_fleet(settings, screen, ship, aliens, alien_type, number)
         ship.center_ship()
 
@@ -308,13 +316,13 @@ def ship_hit(settings, stats, screen, sb, ship, aliens, bullets, alien_type, num
 
 
 def check_aliens_bottom(settings, stats, screen, sb, ship, aliens, bullets,
-                        alien_type, explosions, number, alien_bullets):
+                        alien_type, explosions, number, alien_bullets, barriers):
     screen_rect = screen.get_rect()
     for alien in aliens.sprites():
         if alien.rect.bottom >= screen_rect.bottom:
             explosion = Explosion(settings, screen, ship.rect, 'ship')
             explosions.add(explosion)
-            ship_hit(settings, stats, screen, sb, ship, aliens, bullets, alien_type, number, alien_bullets)
+            ship_hit(settings, stats, screen, sb, ship, aliens, bullets, alien_type, number, alien_bullets, barriers)
 
 
 def check_play_button(settings, screen, stats, sb, play_button, ship, aliens, bullets, alien_bullets, mouse_x,
