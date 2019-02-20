@@ -9,6 +9,7 @@ from game_stats import GameStats
 from button import Button
 from scoreboard import Scoreboard
 from start_screen import StartScreen
+from sound import Sound
 # import logging
 # from ufo import UFO
 
@@ -40,6 +41,7 @@ def run_game():
     number = 0
     game_functions.create_fleet(settings, screen, ship, aliens, alien_type, number)
     sec = 3
+    sound = Sound()
 
     while True:
 
@@ -52,8 +54,9 @@ def run_game():
                                     bullets, alien_bullets, alien_type, barriers, ufos, explosions, number)
 
         if stats.game_active:
-            fastinvader1 = pygame.mixer.Sound('sounds/fastinvader1.wav')
-            fastinvader1.play()
+
+            sound.background_music()
+
             ship.update()
             explosions.update()
             for explosion in explosions:
