@@ -10,8 +10,8 @@ from button import Button
 from scoreboard import Scoreboard
 from start_screen import StartScreen
 from sound import Sound
+from highscores import Highscores
 # import logging
-# from ufo import UFO
 
 
 def run_game():
@@ -46,24 +46,33 @@ def run_game():
     while True:
 
         if not stats.game_active:
-
+            # the start_screen is a display screen that allows users to play the game or
+            # see their past high scores
             start_screen = StartScreen(settings, screen, stats, sb, ship, play_button, score_button,
                                        aliens, bullets, alien_bullets, alien_type, barriers,
                                        ufos, explosions, number, sound)
-            start_screen.draw_screen()
+            highscores = Highscores(settings, screen, stats, sb, ship, play_button,
+                                    score_button, aliens, bullets, alien_type)
+            if start_screen.draw_screen():
+                highscores.make_screen()
 
-        game_functions.check_events(settings, screen, stats, sb, play_button, score_button, ship, aliens,
+        # check_events gets the users actions, and calls functions to carry out the action
+        game_functions.check_events(settings, screen, stats, sb, play_button, ship, aliens,
                                     bullets, alien_bullets, alien_type, barriers, ufos, explosions, number, sound)
 
         if stats.game_active:
 
+            # sets up the background music
             sound.background_music()
 
             ship.update()
             explosions.update()
+
+            # gets rid of the explosion objects after they have gone through all the frames
             for explosion in explosions:
                 if not explosion.is_exploding:
                     explosion.kill()
+            # makes the ufo move across the screen at random intervals
             for ufo in ufos:
                 if (not ufo.moving) and random.randint(1, 100) == 2:
                     ufo.moving = True
@@ -76,8 +85,10 @@ def run_game():
             game_functions.update_alien_bullets(settings, stats, screen, sb, aliens, bullets, alien_type, number,
                                                 alien_bullets, barriers, ship, explosions, sound)
             game_functions.fire_alien_bullet(settings, screen, aliens, alien_bullets)
+            # changes the image of the alien back and forth once a second, for its two frame animation
             now = pygame.time.get_ticks()
             wait = False
+            # truncates ticks in order to get the time in seconds
             if (now/1000) == sec:
                 wait = True
                 # logger.debug(now)

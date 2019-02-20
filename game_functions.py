@@ -10,7 +10,7 @@ import random
 # from highscores import Highscores
 
 
-def check_events(settings, screen, stats, sb, play_button, score_button, ship, aliens,
+def check_events(settings, screen, stats, sb, play_button, ship, aliens,
                  bullets, alien_bullets, alien_type, barriers, ufo, explosions, number, sound):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -25,7 +25,6 @@ def check_events(settings, screen, stats, sb, play_button, score_button, ship, a
             mouse_x, mouse_y = pygame.mouse.get_pos()
             check_play_button(settings, screen, stats, sb, play_button, ship, aliens, bullets, alien_bullets,
                               mouse_x, mouse_y, alien_type, barriers, ufo, explosions, number, sound)
-            check_score_button(settings, screen, stats, sb, score_button, mouse_x, mouse_y)
 
 
 def check_keydown_events(event, settings, screen, ship, bullets, sound):
@@ -103,6 +102,8 @@ def fire_bullet(settings, screen, ship, bullets, sound):
 
 
 def fire_alien_bullet(settings, screen, aliens, alien_bullets):
+    # randomly decides which alien will shoot, but only if
+    # there are no aliens underneath it
     if random.randint(0, 50) == 2:
         for alien in aliens:
             if (alien.number/10) == 3:
@@ -141,6 +142,9 @@ def create_ufo_group(settings, screen, ufos):
 def create_barriers(settings, screen, barriers):
     x_off = 80
     y_off = 0
+
+    # aligns each piece of the barrier so that only part of the barrier is
+    # destroyed when it is hit
     for column in range(0, 4):
         for piece in range(0, 6):
             if piece == 1:
@@ -168,6 +172,8 @@ def create_fleet(settings, screen, ship, aliens, alien_type, number):
     number_aliens_x = get_number_aliens_x(settings, alien.rect.width)
     number_rows = get_number_rows(settings, ship.rect.height, alien.rect.height)
 
+    # sets up the correct type of alien in each row, this
+    # way they don't all look the same
     for row_number in range(number_rows):
         for alien_number in range(number_aliens_x):
             if row_number == 0:
@@ -214,6 +220,7 @@ def get_number_rows(settings, ship_height, alien_height):
 
 
 def change_alien(aliens):
+    # concatinates strings together in order switch the alien_type
     for alien in aliens:
         if alien.alien_type == alien.alien_type[0:14] + '(2)':
                 alien.alien_type = alien.alien_type[0:14]
@@ -253,6 +260,9 @@ def check_bullet_alien_collisions(settings, screen, stats, sb, ship, aliens, bul
                 explosion = Explosion(settings, screen, alien.rect, 'alien')
                 explosions.add(explosion)
                 sound.alien_hit()
+
+                # this makes sure that the aliens are worth the correct
+                # amount of points for the high scores
                 if alien.alien_type == 'sprites/enemy2' or alien.alien_type == 'sprites/enemy2(2)':
                     settings.alien_points = 20
                 if alien.alien_type == 'sprites/enemy3' or alien.alien_type == 'sprites/enemy3(2)':
@@ -356,19 +366,6 @@ def check_play_button(settings, screen, stats, sb, play_button, ship, aliens, bu
         create_barriers(settings, screen, barriers)
         create_ufo_group(settings, screen, ufo)
         ship.center_ship()
-
-
-def check_score_button(settings, screen, stats, sb, score_button, mouse_x, mouse_y):
-    button_clicked = score_button.rect.collidepoint(mouse_x, mouse_y)
-    if button_clicked and not stats.game_active:
-        settings.initialize_dynamic_settings()
-
-        sb.prep_score()
-        sb.prep_high_score()
-        sb.prep_level()
-        sb.prep_ships()
-        # display_scores = Highscores(settings, screen, stats, sb)
-        # display_scores.make_screen()
 
 
 def check_high_score(stats, sb):

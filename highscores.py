@@ -6,7 +6,7 @@ import game_functions
 
 class Highscores:
 
-    def __init__(self, settings, screen, stats, sb, ship, play_button, score_button, aliens, bullets, allien_type):
+    def __init__(self, settings, screen, stats, sb, ship, play_button, score_button, aliens, bullets, alien_type):
 
         self.start_button = play_button
         self.high_score_button = score_button
@@ -15,7 +15,7 @@ class Highscores:
         self.ship = ship
         self.aliens = aliens
         self.bullets = bullets
-        self.alien_type = allien_type
+        self.alien_type = alien_type
 
         self.screen = screen
         self.screen_color = (100, 100, 100)

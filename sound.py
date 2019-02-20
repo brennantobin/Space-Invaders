@@ -9,8 +9,8 @@ class Sound:
         self.second3 = 4
         self.second4 = 5
         self.ufo_sec = 0
-        self.faster = False
-        self.even_faster = False
+        # self.faster = False
+        # self.even_faster = False
 
     def shoot(self):
         shoot_sound = pygame.mixer.Sound('sounds/shoot.wav')
@@ -34,6 +34,7 @@ class Sound:
         hold2 = False
         hold3 = False
         hold4 = False
+        # makes it so each beep in the background music is playing once a second
         if round((start_time / 1000), 1) == self.second1:
             hold1 = True
         if hold1:

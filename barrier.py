@@ -14,6 +14,8 @@ class Barrier(Sprite):
         # self.image = pygame.transform.scale(self.image, (1000, 900))
         self.rect = self.image.get_rect()
 
+        # this accounts for the change in the entire barrier
+        # since there is a displacement from the pieces
         self.rect.x = x_off
         self.rect.top = 600 + y_off
 

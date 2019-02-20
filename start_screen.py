@@ -1,3 +1,4 @@
+# import sys
 import pygame
 import game_functions
 
@@ -94,5 +95,21 @@ class StartScreen:
         pygame.display.flip()
 
         game_functions.check_events(self.settings, self.screen, self.stats, self.sb, self.start_button,
-                                    self.high_score_button, self.ship, self.aliens, self.bullets, self.alien_bullets,
+                                    self.ship, self.aliens, self.bullets, self.alien_bullets,
                                     self.alien_type, self.barrier, self.ufo, self.explosion, self.number, self.sound)
+
+        if self.check_highscores_button():
+            return True
+        return False
+
+    def check_highscores_button(self):
+        for event in pygame.event.get():
+            print('working?')
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                button_clicked = self.high_score_button.rect.collidepoint(mouse_x, mouse_y)
+                if button_clicked:
+                    print('clicked')
+                    return True
+
+        return False
