@@ -13,7 +13,7 @@ class Explosion(Sprite):
         self.explosion_type = explosion_type
         self.is_exploding = True
         self.explosion_number = 0
-        self.ufo_points = random.randint(40, 200)
+        self.ufo_points = round(random.randint(40, 200), -1)
         self.image = pygame.image.load('sprites/Explosion' + str(self.explosion_number) + '.png')
         self.rect = position
 

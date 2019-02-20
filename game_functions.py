@@ -77,7 +77,7 @@ def update_bullets(settings, screen, stats, sb, ship, aliens, bullets, aliens_ty
     # get rid of bullets after they leave the screen
     check_bullet_alien_collisions(settings, screen, stats, sb, ship, aliens, bullets,
                                   aliens_type, barriers, explosions, number, sound)
-    check_bullet_ufo_collision(ufos, screen, bullets, settings, explosions, sound)
+    check_bullet_ufo_collision(ufos, screen, bullets, settings, explosions, sound, stats, sb)
     check_bullet_barrier_collisions(barriers, bullets)
 
     for bullet in bullets.copy():
@@ -288,7 +288,7 @@ def check_bullet_ship_collisions(settings, stats, screen, sb, aliens, bullets, a
         ship_hit(settings, stats, screen, sb, ship, aliens, bullets, alien_type, number, alien_bullets, barriers)
 
 
-def check_bullet_ufo_collision(ufos, screen, bullets, settings, explosions, sound):
+def check_bullet_ufo_collision(ufos, screen, bullets, settings, explosions, sound, stats, sb):
     collisions = pygame.sprite.groupcollide(bullets, ufos, True, True)
     if collisions:
         for ufos in collisions.values():
@@ -296,6 +296,11 @@ def check_bullet_ufo_collision(ufos, screen, bullets, settings, explosions, soun
                 explosion = Explosion(settings, screen, ufo.rect, 'ufo')
                 explosions.add(explosion)
                 sound.alien_hit()
+                settings.alien_points = explosion.ufo_points
+                print(settings.alien_points)
+                stats.score += settings.alien_points
+                sb.prep_score()
+                check_high_score(stats, sb)
 
 
 def ship_hit(settings, stats, screen, sb, ship, aliens, bullets, alien_type, number, alien_bullets, barriers):
