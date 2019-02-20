@@ -46,12 +46,14 @@ def run_game():
     while True:
 
         if not stats.game_active:
+
             start_screen = StartScreen(settings, screen, stats, sb, ship, play_button, score_button,
-                                       aliens, bullets, alien_bullets, alien_type, barriers, ufos, explosions, number)
+                                       aliens, bullets, alien_bullets, alien_type, barriers,
+                                       ufos, explosions, number, sound)
             start_screen.draw_screen()
 
         game_functions.check_events(settings, screen, stats, sb, play_button, score_button, ship, aliens,
-                                    bullets, alien_bullets, alien_type, barriers, ufos, explosions, number)
+                                    bullets, alien_bullets, alien_type, barriers, ufos, explosions, number, sound)
 
         if stats.game_active:
 
@@ -67,12 +69,12 @@ def run_game():
                     ufo.moving = True
                 ufo.update()
             if len(ufos.sprites()) == 0:
-                game_functions.create_ufo_group(settings, screen, ufos)
+                game_functions.create_ufo_group(settings, screen, ufos, sound)
 
             game_functions.update_bullets(settings, screen, stats, sb, ship, aliens,
-                                          bullets, alien_type, barriers, ufos, explosions, number)
+                                          bullets, alien_type, barriers, ufos, explosions, number, sound)
             game_functions.update_alien_bullets(settings, stats, screen, sb, aliens, bullets, alien_type, number,
-                                                alien_bullets, barriers, ship, explosions)
+                                                alien_bullets, barriers, ship, explosions, sound)
             game_functions.fire_alien_bullet(settings, screen, aliens, alien_bullets)
             now = pygame.time.get_ticks()
             wait = False
@@ -84,7 +86,7 @@ def run_game():
                 sec += 1
 
             game_functions.update_aliens(settings, stats, screen, sb, ship, aliens, bullets,
-                                         alien_type, explosions, number)
+                                         alien_type, explosions, number, sound, alien_bullets)
             game_functions.update_screen(settings, screen, stats, sb, ship, aliens, bullets, alien_bullets,
                                          play_button, barriers, ufos, explosions)
         game_functions.update_screen(settings, screen, stats, sb, ship, aliens, bullets,
